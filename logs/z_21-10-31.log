@@ -1,0 +1,12 @@
+2021-10-31 00:41:51,109 | INFO | app_functions.py:7|<5984>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:45:41,493 | INFO | app_functions.py:12|<6131>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:46:01,841 | INFO | app_functions.py:12|<6167>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:47:04,108 | INFO | app_functions.py:12|<6228>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:48:16,440 | INFO | app_functions.py:12|<6286>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:49:17,746 | INFO | app_functions.py:12|<6344>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:49:38,660 | ERROR | selenium_core.py:65|<6344>| -- Failed to verify element load, Element locator: //h1[text()="Authentication"]
+Exception: Message: 
+
+2021-10-31 00:50:27,500 | INFO | app_functions.py:12|<6405>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:53:48,124 | INFO | app_functions.py:12|<6507>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
+2021-10-31 00:55:11,315 | INFO | app_functions.py:12|<6567>| -- Logging in to application, host: http://automationpractice.com/, username: ayush, password: password
