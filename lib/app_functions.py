@@ -70,10 +70,6 @@ class AppFunctions(object):
                 f"Unable to select Data of Birth, Month: {month}"
             assert self.core.click(RegistrationPage.years_dropdown % year), \
                 f"Unable to select Data of Birth, Year: {year}"
-            # assert self.core.input_text(RegistrationPage.address_first_name_textbox, first_name), \
-            #     "Unable to enter first name in address section"
-            # assert self.core.input_text(RegistrationPage.address_last_name_textbox, last_name), \
-            #     "Unable to enter last name in address section"
 
             # since Company is an optional field, let's first check if it is specified in the row detail
             if row_dict["company"]:

@@ -32,13 +32,14 @@ class TC002(object):
         self.filename = BuiltIn().get_variable_value("${registration.filename}")
         self.sheet_name = BuiltIn().get_variable_value("${registration.sheet_name}")
         self.tag = BuiltIn().get_variable_value("${registration.happy_flow_tag}")
+        self.app = AppFunctions()
 
     def steps(self):
-        logger.info(f"Starting test execution, tc_id: {tc_id}")
-        if app.launch_app(self.host_name):
-            if app.registration(self.filename, self.sheet_name, self.tag):
+        logger.info(f"Starting test execution, tc_id: {self.tc_id}")
+        if self.app.launch_app(self.host_name):
+            if self.app.registration(self.filename, self.sheet_name, self.tag):
                 BuiltIn().pass_execution(f"Successfully verified that user create an account with valid details")
         BuiltIn().fail(f"TC Failed! {self.tc_summary}")
 
     def teardown(self):
-        pass
+        self.app.quit()
