@@ -5,7 +5,7 @@ from robot.libraries.BuiltIn import BuiltIn, RobotNotRunningError
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import *
 from selenium.webdriver.support import expected_conditions as ec
 
 
@@ -14,14 +14,14 @@ class SeleniumCore(object):
         self.logger = Logger.__call__().get_logger()
         try:
             # let's fetch headless value directly from the cfg file, assume it False if not found
-            headless = eval(BuiltIn().get_variable_value("environment.headless"))
+            headless = BuiltIn().get_variable_value("${environment.headless_mode}")
         except RobotNotRunningError:
             headless = False
 
         try:
             current_path = os.getcwd()
             home_dir = os.path.join(current_path[:current_path.find('uiautomate')], 'uiautomate')
-            if headless:
+            if headless.upper() == "YES":
                 chrome_options = Options()
                 chrome_options.add_argument('--no-sandbox')
                 chrome_options.headless = True
@@ -57,6 +57,15 @@ class SeleniumCore(object):
             self.driver.quit()
         except Exception as e:
             self.logger.error(f"Error while quitting the browser\nException: {e}")
+
+    def element_displayed(self, locator, locator_type=By.XPATH, explicit_timeout=20):
+        try:
+            element = WebDriverWait(self.driver, explicit_timeout).until(
+                ec.presence_of_element_located((locator_type, locator)))
+            return element.is_displayed()
+        except TimeoutException as e:
+            self.logger.error(f"Failed to verify element load, Element locator: {locator}\nException: {e}")
+        return False
 
     def element_load_wait(self, locator, locator_type=By.XPATH, explicit_timeout=20):
         try:

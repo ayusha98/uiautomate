@@ -33,7 +33,7 @@ class loadconfig(object):
     def close(self):
         rebot("%s/output.xml" % self.output_dir, outputdir=self.output_dir,
               reportbackground="lightgreen:#F9DA40:#F9DA40")
-        # TODO: we can send this report over email
+        # TODO: we can capture the screenshot, and send this report over email as attachment
 
     def __set_variables(self):
         for key in self.globalconfigDict:
