@@ -76,7 +76,7 @@ class SeleniumCore(object):
         return False
 
     def element_load_wait(self, locator, locator_type=By.XPATH, explicit_timeout=20):
-        self.logger.info(f"Waiting for element load.. locator: {locator}")
+        self.logger.debug(f"Waiting for element load.. locator: {locator}")
         try:
             WebDriverWait(self.driver, explicit_timeout).until(
                 ec.presence_of_element_located((locator_type, locator)))

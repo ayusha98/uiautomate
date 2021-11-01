@@ -71,8 +71,7 @@ class AppFunctions(object):
         self.logger.info(f"Starting new user registration flow, user details: {row_dict}")
         try:
             self.create_new_account(row_dict["email"])
-            from time import sleep
-            sleep(1)
+
             # now the registration page should be loaded, let's populate all the fields
             name = row_dict["name"]
             gender, first_name, last_name = name.split()[0], name.split()[1], name.split()[2]
