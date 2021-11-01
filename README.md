@@ -43,6 +43,12 @@ We can also execute a single test case from any python file :
 python3 runner.py suites/registration.py config=practice.cfg tc=TC001
 ```
 
+Tests can also be executed in headless mode (on a linux machine where we don't have display, and browser window can not be launched). There is 1 config to enable/disable headless mode, available in conf/practice.cfg :
+
+```bash
+headless_mode = Yes
+```
+
 ### Reporting
 
 Test reports are generated automatically at the end of test execution. User gets the link to HTML test report of each execution in the terminal itself.
