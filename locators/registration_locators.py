@@ -8,6 +8,7 @@ class LoginPage(object):
     email_textbox = '//input[@id="email"]'
     password_textbox = '//input[@id="passwd"]'
     login_button = '//button[@id="SubmitLogin"]'
+    account_creation_form = '//form[@id="create-account_form"]'
     create_email_textbox = '//input[@id="email_create"]'
     create_account_button = '//button[@id="SubmitCreate"]'
 

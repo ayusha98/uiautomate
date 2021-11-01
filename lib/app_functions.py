@@ -2,7 +2,7 @@ import os
 from logger import Logger
 from config_parser import ParseXLS
 from selenium_core import SeleniumCore
-from locators.registration_locators import HomePage, LoginPage, RegistrationPage
+from locators.registration_locators import HomePage, LoginPage, RegistrationPage, AccountPage
 
 
 class AppFunctions(object):
@@ -27,9 +27,33 @@ class AppFunctions(object):
         try:
             assert self.core.click(HomePage.sign_in_button), "Unable to click on Sign In button on home page"
             assert self.core.element_load_wait(LoginPage.authentication_header), "Failed to verify the login page load"
-            assert self.core.input_text(LoginPage.email_textbox, username), "Unable to enter username text on login page"
+            assert self.core.input_text(LoginPage.email_textbox, username), \
+                "Unable to enter username text on login page"
             assert self.core.input_text(LoginPage.password_textbox, password), "Unable to enter password text"
             assert self.core.click(LoginPage.login_button), "Unable to click on Login button"
+            return True
+        except AssertionError as e:
+            self.logger.error(f"Something unexpected happened, {e}")
+        return False
+
+    def verify_registration_form_visible(self):
+        self.logger.info(f"Checking if 'Create an account' section is displayed on login page or not ..")
+        assert self.core.click(HomePage.sign_in_button), "Unable to click on Sign In button on home page"
+        if self.core.element_displayed(LoginPage.account_creation_form):
+            self.logger.info(f"Successfully verified that 'Create an account' section is displayed on Login page.")
+            return True
+        self.logger.error(f"Unable to verify visibility of 'Create an account' section on login page")
+        return False
+
+    def create_new_account(self, email):
+        self.logger.info(f"Starting 'Create new account' workflow, for email address: {email}")
+        try:
+            assert self.core.click(HomePage.sign_in_button), "Unable to click on Home page Sign in button"
+            assert self.core.element_load_wait(LoginPage.authentication_header), "Failed to verify the login page load"
+            assert self.core.input_text(LoginPage.create_email_textbox, email), "Unable to enter email text"
+            assert self.core.click(LoginPage.create_account_button), "Unable to click on Create account button"
+            assert self.core.element_load_wait(RegistrationPage.registration_header), \
+                "Failed to verify the Registration page load"
             return True
         except AssertionError as e:
             self.logger.error(f"Something unexpected happened, {e}")
@@ -46,13 +70,9 @@ class AppFunctions(object):
 
         self.logger.info(f"Starting new user registration flow, user details: {row_dict}")
         try:
-            assert self.core.click(HomePage.sign_in_button), "Unable to click on Home page Sign in button"
-            assert self.core.element_load_wait(LoginPage.authentication_header), "Failed to verify the login page load"
-            assert self.core.input_text(LoginPage.create_email_textbox, row_dict["email"]), "Unable to enter email text"
-            assert self.core.click(LoginPage.create_account_button), "Unable to click on Create account button"
-            assert self.core.element_load_wait(RegistrationPage.registration_header), \
-                "Failed to verify the Registration page load"
-
+            self.create_new_account(row_dict["email"])
+            from time import sleep
+            sleep(1)
             # now the registration page should be loaded, let's populate all the fields
             name = row_dict["name"]
             gender, first_name, last_name = name.split()[0], name.split()[1], name.split()[2]
@@ -95,10 +115,21 @@ class AppFunctions(object):
             self.core.click(RegistrationPage.register_button)
 
             self.logger.info(f"Successfully completed new user registration flow, details: {row_dict}")
-            return True
+            return row_dict
         except AssertionError as e:
             self.logger.error(f"Something unexpected happened, {e}")
         return False
 
+    def verify_account_page_visible(self):
+        self.logger.info(f"Checking if 'My account' section is displayed or not ..")
+        if self.core.element_displayed(AccountPage.account_header):
+            self.logger.info(f"Successfully verified that 'My account' section is displayed on account page.")
+            return True
+        self.logger.error(f"Unable to verify visibility of 'My account' section on account page")
+        return False
+
     def quit(self):
         self.core.quit_browser()
+    
+    def close_browser(self):
+        self.core.close_browser()

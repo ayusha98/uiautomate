@@ -21,7 +21,7 @@ class SeleniumCore(object):
         try:
             current_path = os.getcwd()
             home_dir = os.path.join(current_path[:current_path.find('uiautomate')], 'uiautomate')
-            if headless.upper() == "YES":
+            if headless and headless.upper() == "YES":
                 chrome_options = Options()
                 chrome_options.add_argument('--no-sandbox')
                 chrome_options.headless = True
@@ -51,6 +51,13 @@ class SeleniumCore(object):
             self.logger.error(f"Unable to fetch current webpage title\nException: {e}")
         return False
 
+    def close_browser(self):
+        try:
+            self.logger.debug(f"Closing the browser..")
+            self.driver.close()
+        except Exception as e:
+            self.logger.error(f"Error while closing the browser\nException: {e}")
+
     def quit_browser(self):
         try:
             self.logger.debug(f"Quitting the browser..")
@@ -59,6 +66,7 @@ class SeleniumCore(object):
             self.logger.error(f"Error while quitting the browser\nException: {e}")
 
     def element_displayed(self, locator, locator_type=By.XPATH, explicit_timeout=20):
+        self.logger.debug(f"Checking is element is displayed, locator: {locator}")
         try:
             element = WebDriverWait(self.driver, explicit_timeout).until(
                 ec.presence_of_element_located((locator_type, locator)))
@@ -68,6 +76,7 @@ class SeleniumCore(object):
         return False
 
     def element_load_wait(self, locator, locator_type=By.XPATH, explicit_timeout=20):
+        self.logger.info(f"Waiting for element load.. locator: {locator}")
         try:
             WebDriverWait(self.driver, explicit_timeout).until(
                 ec.presence_of_element_located((locator_type, locator)))
