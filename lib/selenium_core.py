@@ -7,6 +7,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import *
 from selenium.webdriver.support import expected_conditions as ec
+import logging
+from selenium.webdriver.remote.remote_connection import LOGGER as SELENIUM_LOGGER
+SELENIUM_LOGGER.setLevel(logging.WARNING)
+from urllib3.connectionpool import log as url_lib_logger
+url_lib_logger.setLevel(logging.WARNING)
 
 
 class SeleniumCore(object):

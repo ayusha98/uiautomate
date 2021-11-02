@@ -1,0 +1,5 @@
+*.pyc
+.idea
+.DS_store
+logs/*.log
+results/**
